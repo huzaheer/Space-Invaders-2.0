@@ -1,7 +1,11 @@
-#include "raylib.h"
+#include <raylib.h>
+#include "Spaceship.hpp"
+#include "game.hpp"
 
 int main(void)
 {
+
+    Color my_purple = {72,72,136,255};
     // deciding dimensions of window
     int windowwidth = 750;
     int windowheight = 700;
@@ -10,9 +14,15 @@ int main(void)
     InitWindow(windowwidth, windowheight, "Space Invaders 2.0");
     SetTargetFPS(60);
 
+    Game game;
+
     ////////////////////////////// Game Loop ////////////////////////////////////
     while (WindowShouldClose() == false) { // Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)
         BeginDrawing();
+
+        ClearBackground(my_purple);
+        game.Draw();
+
         EndDrawing();
     }
 
