@@ -19,3 +19,19 @@ void Spaceship::Draw()
 {
     DrawTextureV(image, position, WHITE);
 }
+
+void Spaceship::moveLeft()
+{
+    position.x -=7;
+    if (position.x < 0){
+        position.x = 0;
+    }
+}
+
+void Spaceship::moveRight()
+{
+    position.x +=7;
+    if (position.x > GetScreenWidth() - image.width){
+        position.x = GetScreenWidth() - image.width;
+    }
+}

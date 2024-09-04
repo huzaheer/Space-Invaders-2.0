@@ -18,6 +18,9 @@ int main(void)
 
     ////////////////////////////// Game Loop ////////////////////////////////////
     while (WindowShouldClose() == false) { // Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)
+        
+        game.HandleInput();
+        
         BeginDrawing();
 
         ClearBackground(my_purple);

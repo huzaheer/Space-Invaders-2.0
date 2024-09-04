@@ -1,16 +1,16 @@
 #pragma once
 #include <raylib.h>
 
-class {
-    public:
-        Spaceship();
-        ~Spaceship();
-        void Draw();
-        void moveLeft();
-        void moveRight();
-        void fireLaser();
+class Spaceship {  // Name the class correctly
+public:
+    Spaceship();   // Constructor declaration
+    ~Spaceship();  // Destructor declaration
+    void Draw();   // Method declarations
+    void moveLeft();
+    void moveRight();
+    void fireLaser();
 
-    private:
-        Texture2D image;
-        Vector2 position;
+private:
+    Texture2D image;     // Private members
+    Vector2 position;
 };
