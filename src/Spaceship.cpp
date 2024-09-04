@@ -1,5 +1,6 @@
 #include "Spaceship.hpp"
 #include <raylib.h>
+#include <vector>
 
 Spaceship::Spaceship()
 {
@@ -7,6 +8,7 @@ Spaceship::Spaceship()
     image = LoadTexture("../graphics/Spaceship_Asset.png");
     position.x = (GetScreenWidth() - image.width)/2;
     position.y = (GetScreenHeight() - image.height);
+    SinceLastFire = 0.0;
 }
 
 Spaceship::~Spaceship()
@@ -33,5 +35,14 @@ void Spaceship::moveRight()
     position.x +=7;
     if (position.x > GetScreenWidth() - image.width){
         position.x = GetScreenWidth() - image.width;
+    }
+}
+
+void Spaceship::Shoot()
+{
+    //-2 to account for width of laser which is 4
+    if (GetTime() - SinceLastFire > 0.35){
+        lasers.push_back(Laser({position.x + image.width/2 - 2, position.y}, -6));
+        SinceLastFire = GetTime();
     }
 }

@@ -19,8 +19,11 @@ int main(void)
     ////////////////////////////// Game Loop ////////////////////////////////////
     while (WindowShouldClose() == false) { // Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)
         
+        DrawRectangle(100, 100, 4, 15, {255, 0, 0, 255});
+
         game.HandleInput();
-        
+        game.Update();
+
         BeginDrawing();
 
         ClearBackground(my_purple);
