@@ -1,8 +1,9 @@
 #include "game.hpp"
+#include "obstacle.hpp"
 #include <iostream>
 
 Game::Game(){
-
+    CreateObstacles();
 }
 
 Game::~Game(){
@@ -24,6 +25,10 @@ void Game::Draw(){
 
     DeleteInactiveLasers();
     std::cout << "Vector Size: " << spaceship.lasers.size() << std::endl;
+
+    for (auto& obstacle: obstacles){
+        obstacle.Draw();
+    }
 }
 
 void Game::HandleInput(){
@@ -44,5 +49,15 @@ void Game::DeleteInactiveLasers(){
         } else {
             ++it;
         }
+    }
+}
+
+void Game::CreateObstacles(){
+    int obstacleWidth = Obstacle::grid[0].size() * 3; //each obstacle is three pixels wide
+    float gap = (GetScreenWidth() - (obstacleWidth*4))/5;
+
+    for (int i = 1; i < 5; ++i){
+        float place_x = gap*i + (i-1)*obstacleWidth;
+        obstacles.push_back(Obstacle({place_x, float(GetScreenHeight() - 140)}));
     }
 }
