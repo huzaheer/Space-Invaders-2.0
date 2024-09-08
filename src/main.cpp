@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include "Spaceship.hpp"
 #include "game.hpp"
+#include "alien.hpp"
 
 int main(void)
 {
@@ -25,6 +26,7 @@ int main(void)
         BeginDrawing();
 
         ClearBackground(my_purple);
+
         game.Draw();
 
         EndDrawing();
