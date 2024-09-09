@@ -7,6 +7,7 @@ Game::Game(){
     CreateObstacles();
     CreateAliens();
     aliendirection = 1;
+    aliendescendspeed = 4;
 }
 
 Game::~Game(){
@@ -17,6 +18,25 @@ void Game::Update(){
     for (auto& laser: spaceship.lasers){
         laser.Update();
     }
+
+    // Step 1: Detect if any alien hits the boundary, and flip direction if necessary
+    bool flipDirection = false;
+
+    for (auto& alien : aliens) {
+        if (alien.position.x <= 0) {
+            aliendirection = 1;
+            MoveDownAliens();
+        }
+        if (alien.position.x >= (GetScreenWidth() - alien.alienImages[alien.getType() - 1].width * 1.8)) {
+            aliendirection = -1;
+            MoveDownAliens();
+        }
+        alien.AlienUpdate(aliendirection);
+    }
+
+    DeleteInactiveLasers();
+    std::cout << "Vector Size: " << spaceship.lasers.size() << std::endl;
+
 }
 
 void Game::Draw(){
@@ -25,9 +45,6 @@ void Game::Draw(){
     for (auto& laser: spaceship.lasers){
         laser.Draw();
     }
-
-    DeleteInactiveLasers();
-    std::cout << "Vector Size: " << spaceship.lasers.size() << std::endl;
 
     for (auto& obstacle: obstacles){
         obstacle.Draw();
@@ -63,6 +80,13 @@ void Game::MoveAliens()
 {
     for (auto& alien: aliens){
         alien.AlienUpdate(aliendirection);
+    }
+}
+
+void Game::MoveDownAliens()
+{
+    for (auto& alien : aliens){
+        alien.position.y += aliendescendspeed;
     }
 }
 

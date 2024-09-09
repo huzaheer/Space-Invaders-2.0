@@ -45,3 +45,7 @@ void Alien::AlienUpdate(int speed)
     position.x += speed;
 }
 
+int Alien::getType()
+{
+    return type;
+}

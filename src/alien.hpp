@@ -11,7 +11,8 @@ class Alien{
         Texture2D image;
         static void UnloadImages();
         void AlienUpdate(int speed);
-    private:
         Vector2 position;
+        int getType();
+    private:
         int type;
 };

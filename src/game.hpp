@@ -20,5 +20,7 @@ private:
     void DeleteInactiveLasers();
     std::vector<Alien> aliens;
     void MoveAliens();
+    void MoveDownAliens();
+    int aliendescendspeed;
     int aliendirection;
 };
