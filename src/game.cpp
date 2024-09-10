@@ -192,9 +192,25 @@ void Game::CheckCollisions()
         }
     }
 
-    // Alien lasers with blocks
+    // Alien lasers
+    for (auto& laser: alienlasers){
+        // Alien lasers with blocks       
+        for (auto& obstacle: obstacles){
+            for (auto it = obstacle.blocks.begin(); it != obstacle.blocks.end();){
+                if (CheckCollisionRecs(it->getRect(), laser.getRect())){
+                    laser.active = false;
+                    it = obstacle.blocks.erase(it);
+                } else {
+                    ++it;
+                }
+            }     
+        }
 
-    // Alien lasers with Spaceship
+        // Alien lasers with Spaceship
+        if (CheckCollisionRecs(spaceship.getRect(), laser.getRect())){
+            std::cout << "PANIC PANIC!! WE GOT SHOT" << std::endl; 
+        }
+    }
 
     // Alien with Spaceship
 
