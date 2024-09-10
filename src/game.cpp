@@ -9,7 +9,7 @@ Game::Game(){
     aliendirection = 1;
     aliendescendspeed = 4;
     lastlasertime = 0;
-    mysteryship.Spawn();
+    lastspawntime = 0;
 }
 
 Game::~Game(){
@@ -17,6 +17,11 @@ Game::~Game(){
 }
 
 void Game::Update(){
+    int rando = GetRandomValue(10, 20);
+    if (GetTime() - lastspawntime > rando){
+        mysteryship.Spawn();
+        lastspawntime = GetTime();
+    }
     for (auto& laser: spaceship.lasers){
         laser.Update();
     }

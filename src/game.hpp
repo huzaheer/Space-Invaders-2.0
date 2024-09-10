@@ -23,6 +23,7 @@ private:
     void AlienShootLasers();
     int aliendirection;
     int aliendescendspeed;
+    int lastspawntime;
     double laserinterval = 0.4;
     double lastlasertime;
     Spaceship spaceship;
@@ -30,5 +31,4 @@ private:
     std::vector<Obstacle> obstacles;
     std::vector<Alien> aliens;
     std::vector<Laser> alienlasers;
-
 };
