@@ -21,6 +21,7 @@ private:
     void MoveAliens();
     void MoveDownAliens();
     void AlienShootLasers();
+    void CheckCollisions();
     int aliendirection;
     int aliendescendspeed;
     int lastspawntime;

@@ -8,9 +8,10 @@ class MysteryShip{
         void Draw();
         void Update();
         void Spawn();
+        Rectangle getRect();
+        bool alive;
     private:
         Texture2D image;
         Vector2 position;
         int speed;
-        bool alive;
 };

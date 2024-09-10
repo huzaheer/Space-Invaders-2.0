@@ -34,9 +34,14 @@ void MysteryShip::Spawn()
     int rand = GetRandomValue(0, 1);
     if (rand == 1){
         position.x = 0;
-        speed = 6;
+        speed = 3;
     } else {
         position.x = GetScreenWidth() - image.width;
-        speed = -6;
+        speed = -3;
     }
+}
+
+Rectangle MysteryShip::getRect()
+{
+    return Rectangle{position.x, position.y, float(image.width*1.8), float(image.height*1.8)};
 }

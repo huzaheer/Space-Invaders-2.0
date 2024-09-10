@@ -49,3 +49,10 @@ int Alien::getType()
 {
     return type;
 }
+
+Rectangle Alien::getRect()
+{
+    return Rectangle{position.x , position.y, 
+                    float(alienImages[type - 1].width*1.8), 
+                    float(alienImages[type - 1].height*1.8)};
+}

@@ -14,7 +14,7 @@ public:
     void Shoot();
     std::vector<Laser> lasers;
     double SinceLastFire;
-
+    Rectangle getRect();
 private:
     Texture2D image;     // Private members
     Vector2 position;

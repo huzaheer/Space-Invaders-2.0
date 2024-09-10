@@ -13,6 +13,7 @@ class Alien{
         void AlienUpdate(int speed);
         Vector2 position;
         int getType();
+        Rectangle getRect();
     private:
         int type;
 };

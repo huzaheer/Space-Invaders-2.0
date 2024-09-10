@@ -26,17 +26,19 @@ void Game::Update(){
         laser.Update();
     }
 
-    MoveAliens();
-
-    AlienShootLasers();
-
     for(auto& laser: alienlasers) {
         laser.Update();
     }
 
-    DeleteInactiveLasers();
-
     mysteryship.Update();
+
+    MoveAliens();
+
+    AlienShootLasers();
+
+    CheckCollisions();
+
+    DeleteInactiveLasers();
 
 }
 
@@ -85,7 +87,7 @@ void Game::DeleteInactiveLasers(){
 
     for (auto it = alienlasers.begin(); it != alienlasers.end();){
         if (!it -> active){
-            it = spaceship.lasers.erase(it);
+            it = alienlasers.erase(it);
         } else {
             ++it;
         }
@@ -158,3 +160,44 @@ void Game::CreateAliens()
 }
 
 
+void Game::CheckCollisions()
+{
+    // Spaceship lasers
+    for (auto& laser: spaceship.lasers){
+        // Spaceship lasers with aliens
+        for (auto it = aliens.begin(); it != aliens.end();){
+            if (CheckCollisionRecs(laser.getRect(), it->getRect())){
+                laser.active = false;
+                it = aliens.erase(it);
+            } else {
+                ++it;
+            }
+        }
+            
+        // Spaceship lasers with blocks
+        for (auto& obstacle: obstacles){
+            for (auto it = obstacle.blocks.begin(); it != obstacle.blocks.end();){
+                if (CheckCollisionRecs(it->getRect(), laser.getRect())){
+                    laser.active = false;
+                    it = obstacle.blocks.erase(it);
+                } else {
+                    ++it;
+                }
+            }     
+        }
+
+        // Spaceship laser with mystership
+        if (CheckCollisionRecs(mysteryship.getRect(), laser.getRect())){
+            mysteryship.alive = false;
+        }
+    }
+
+    // Alien lasers with blocks
+
+    // Alien lasers with Spaceship
+
+    // Alien with Spaceship
+
+    // Alien with Block
+
+}

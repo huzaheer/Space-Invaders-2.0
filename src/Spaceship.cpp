@@ -46,3 +46,8 @@ void Spaceship::Shoot()
         SinceLastFire = GetTime();
     }
 }
+
+Rectangle Spaceship::getRect()
+{
+    return Rectangle{position.x, position.y, float(image.width), float(image.height)};
+}
