@@ -14,6 +14,8 @@ public:
     void Draw();
     void HandleInput();
     bool run;
+    int lives;
+    int score;
 
 private:
     void CreateObstacles();
@@ -29,7 +31,6 @@ private:
     int aliendirection;
     int aliendescendspeed;
     int lastspawntime;
-    int lives;
     double laserinterval = 0.4;
     double lastlasertime;
     Spaceship spaceship;

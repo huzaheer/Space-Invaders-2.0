@@ -16,6 +16,7 @@ void Game::Init(){
     lastspawntime = 0;
     lives = 3;
     run = true;
+    score = 0;
 }
 
 void Game::Reset(){
@@ -121,11 +122,11 @@ void Game::MoveAliens()
     bool flipDirection = false;
 
     for (auto& alien : aliens) {
-        if (alien.position.x <= 0) {
+        if (alien.position.x <= 15) {
             aliendirection = 1;
             MoveDownAliens();
         }
-        if (alien.position.x >= (GetScreenWidth() - alien.alienImages[alien.getType() - 1].width * 1.8)) {
+        if (alien.position.x >= (GetScreenWidth() - alien.alienImages[alien.getType() - 1].width * 1.8 - 15)) {
             aliendirection = -1;
             MoveDownAliens();
         }
@@ -157,7 +158,7 @@ void Game::CreateObstacles(){
 
     for (int i = 1; i < 5; ++i){
         float place_x = gap*i + (i-1)*obstacleWidth;
-        obstacles.push_back(Obstacle({place_x, float(GetScreenHeight() - 140)}));
+        obstacles.push_back(Obstacle({place_x, float(GetScreenHeight() - 210)}));
     }
 }
 
@@ -170,11 +171,11 @@ void Game::CreateAliens()
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++){
             if (i == 1){
-                aliens.push_back(Alien(1, {75 + x*j, 90 + y*i}));
+                aliens.push_back(Alien(1, {75 + x*j, 110 + y*i}));
             } else if (i == 2 || i == 3){
-                aliens.push_back(Alien(2, {75 + x*j, 90 + y*i}));
+                aliens.push_back(Alien(2, {75 + x*j, 110 + y*i}));
             } else {
-                aliens.push_back(Alien(3, {75 + x*j, 90 + y*i}));
+                aliens.push_back(Alien(3, {75 + x*j, 110 + y*i}));
             }
         }
     }
@@ -189,6 +190,13 @@ void Game::CheckCollisions()
         for (auto it = aliens.begin(); it != aliens.end();){
             if (CheckCollisionRecs(laser.getRect(), it->getRect())){
                 laser.active = false;
+                if (it->getType() == 1){
+                    score += 100;
+                } else if (it->getType() == 2){
+                    score += 200;
+                } else if (it->getType() == 3){
+                    score += 300;
+                }
                 it = aliens.erase(it);
             } else {
                 ++it;
@@ -211,6 +219,7 @@ void Game::CheckCollisions()
         if (CheckCollisionRecs(mysteryship.getRect(), laser.getRect())){
             mysteryship.alive = false;
             laser.active = false;
+            score += 500;
         }
     }
 

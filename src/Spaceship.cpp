@@ -7,7 +7,7 @@ Spaceship::Spaceship()
     //loads texture into GPU memory
     image = LoadTexture("../graphics/Spaceship_Asset.png");
     position.x = (GetScreenWidth() - image.width)/2;
-    position.y = (GetScreenHeight() - image.height);
+    position.y = (GetScreenHeight() - image.height - 75);
     SinceLastFire = 0.0;
 }
 
@@ -25,16 +25,16 @@ void Spaceship::Draw()
 void Spaceship::moveLeft()
 {
     position.x -=7;
-    if (position.x < 0){
-        position.x = 0;
+    if (position.x < 15){
+        position.x = 15;
     }
 }
 
 void Spaceship::moveRight()
 {
     position.x +=7;
-    if (position.x > GetScreenWidth() - image.width){
-        position.x = GetScreenWidth() - image.width;
+    if (position.x > GetScreenWidth() - image.width - 15){
+        position.x = GetScreenWidth() - image.width - 15;
     }
 }
 
@@ -50,7 +50,7 @@ void Spaceship::Shoot()
 void Spaceship::Reset()
 {
     position.x = (GetScreenWidth() - image.width)/2;
-    position.y = GetScreenHeight() - image.height;
+    position.y = GetScreenHeight() - image.height - 75;
     lasers.clear();
 }
 
