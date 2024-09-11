@@ -2,6 +2,7 @@
 #include "obstacle.hpp"
 #include "alien.hpp"
 #include <iostream>
+#include <fstream>
 
 Game::Game(){
     Init();
@@ -17,6 +18,39 @@ void Game::Init(){
     lives = 3;
     run = true;
     score = 0;
+    highscore = LoadHighScorefromFile();
+}
+
+void Game::CheckforHighScore()
+{
+    if (score > highscore){
+        highscore = score;
+        SaveHighScoretoFile(highscore);
+    }
+}
+
+void Game::SaveHighScoretoFile(int hs)
+{
+    std::ofstream highscoreFile("highscore.txt");
+    if (highscoreFile.is_open()){
+        highscoreFile << hs;
+        highscoreFile.close();
+    } else {
+        std::cerr << "Failed to save high score to file" << std::endl;
+    }
+}
+
+int Game::LoadHighScorefromFile()
+{
+    int loadedhighscore = 0;
+    std::ifstream highscoreFile("highscore.txt");
+    if (highscoreFile.is_open()){
+        highscoreFile >> loadedhighscore;
+        highscoreFile.close();
+    } else {
+        std::cerr << "Failed to save high score to file" << std::endl;
+    }
+    return loadedhighscore;
 }
 
 void Game::Reset(){
@@ -197,6 +231,7 @@ void Game::CheckCollisions()
                 } else if (it->getType() == 3){
                     score += 300;
                 }
+                CheckforHighScore();
                 it = aliens.erase(it);
             } else {
                 ++it;
@@ -220,6 +255,7 @@ void Game::CheckCollisions()
             mysteryship.alive = false;
             laser.active = false;
             score += 500;
+            CheckforHighScore();
         }
     }
 

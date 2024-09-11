@@ -16,6 +16,7 @@ public:
     bool run;
     int lives;
     int score;
+    int highscore;
 
 private:
     void CreateObstacles();
@@ -28,6 +29,9 @@ private:
     void GameOver();
     void Reset();
     void Init();
+    void CheckforHighScore();
+    void SaveHighScoretoFile(int hs);
+    int LoadHighScorefromFile();
     int aliendirection;
     int aliendescendspeed;
     int lastspawntime;

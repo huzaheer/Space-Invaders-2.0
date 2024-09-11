@@ -58,6 +58,11 @@ int main(void)
         std::string final_score = FormatWithLeadingZeros(game.score, 5);
         DrawTextEx(font, final_score.c_str(), {50, 40}, 34, 2, yellow);
 
+        //Highscore indicator
+        DrawTextEx(font, "HIGH SCORE", {615, 15}, 34, 2, yellow);
+        std::string final_highscore = FormatWithLeadingZeros(game.highscore, 5);
+        DrawTextEx(font, final_highscore.c_str(), {615, 40}, 34, 2, yellow);
+
 
         game.Draw();
 
