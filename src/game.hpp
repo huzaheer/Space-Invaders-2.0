@@ -13,6 +13,7 @@ public:
     void Update();
     void Draw();
     void HandleInput();
+    bool run;
 
 private:
     void CreateObstacles();
@@ -22,9 +23,13 @@ private:
     void MoveDownAliens();
     void AlienShootLasers();
     void CheckCollisions();
+    void GameOver();
+    void Reset();
+    void Init();
     int aliendirection;
     int aliendescendspeed;
     int lastspawntime;
+    int lives;
     double laserinterval = 0.4;
     double lastlasertime;
     Spaceship spaceship;
