@@ -26,7 +26,7 @@ Alien::Alien(int type, Vector2 position)
 }
 
 Alien::~Alien(){
-
+    
 }
 
 void Alien::Draw(){

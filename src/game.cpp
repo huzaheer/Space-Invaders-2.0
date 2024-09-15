@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "obstacle.hpp"
 #include "alien.hpp"
+#include "boss.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -13,12 +14,15 @@ void Game::Init(){
     CreateAliens();
     aliendirection = 1;
     aliendescendspeed = 4;
+    bossdirection = 1;
+    bossdescendspeed = 6;
     lastlasertime = 0;
     lastspawntime = 0;
     lives = 3;
     run = true;
     score = 0;
     highscore = LoadHighScorefromFile();
+    BossTime = false;
 }
 
 void Game::CheckforHighScore()
@@ -38,6 +42,23 @@ void Game::SaveHighScoretoFile(int hs)
     } else {
         std::cerr << "Failed to save high score to file" << std::endl;
     }
+}
+
+void Game::MoveBoss()
+{
+    if (boss.position.x <= 0){
+        aliendirection = aliendirection * -1;
+        MoveDownBoss();
+    } else if (boss.position.x > GetScreenWidth() - boss.image.width){
+        aliendirection = aliendirection * -1;
+        MoveDownBoss();
+    }
+    boss.Update(aliendirection);
+}
+
+void Game::MoveDownBoss()
+{
+    boss.position.y += bossdescendspeed;
 }
 
 int Game::LoadHighScorefromFile()
@@ -66,28 +87,32 @@ Game::~Game(){
 
 void Game::Update(){
     if (run) {
-        int rando = GetRandomValue(10, 20);
-        if (GetTime() - lastspawntime > rando){
-            mysteryship.Spawn();
-            lastspawntime = GetTime();
+        if (!BossTime){
+            int rando = GetRandomValue(10, 20);
+            if (GetTime() - lastspawntime > rando){
+                mysteryship.Spawn();
+                lastspawntime = GetTime();
+            }
+            for (auto& laser: spaceship.lasers){
+                laser.Update();
+            }
+
+            for(auto& laser: alienlasers) {
+                laser.Update();
+            }
+
+            mysteryship.Update();
+
+            MoveAliens();
+
+            AlienShootLasers();
+
+            CheckCollisions();
+
+            DeleteInactiveLasers();
+        } else {
+            MoveBoss();
         }
-        for (auto& laser: spaceship.lasers){
-            laser.Update();
-        }
-
-        for(auto& laser: alienlasers) {
-            laser.Update();
-        }
-
-        mysteryship.Update();
-
-        MoveAliens();
-
-        AlienShootLasers();
-
-        CheckCollisions();
-
-        DeleteInactiveLasers();
     } else {
         if (IsKeyDown(KEY_ENTER)){
             Reset();
@@ -97,26 +122,35 @@ void Game::Update(){
 }
 
 void Game::Draw(){
-    spaceship.Draw();
+    if (!BossTime){
+        spaceship.Draw();
 
-    for (auto& laser: spaceship.lasers){
-        laser.Draw();
+        for (auto& laser: spaceship.lasers){
+            laser.Draw();
+        }
+
+        for (auto& obstacle: obstacles){
+            obstacle.Draw();
+        }
+
+        for(auto& laser: alienlasers) {
+            laser.Draw();
+        }
+
+        for (auto& alien: aliens){
+            alien.Draw();
+        }
+
+        mysteryship.Draw();   
+    } else {
+        boss.Draw();
+
+        spaceship.Draw();
+
+        for (auto& obstacle: obstacles){
+            obstacle.Draw();
+        }
     }
-
-    for (auto& obstacle: obstacles){
-        obstacle.Draw();
-    }
-
-    for(auto& laser: alienlasers) {
-        laser.Draw();
-    }
-
-    for (auto& alien: aliens){
-        alien.Draw();
-    }
-
-    mysteryship.Draw();
-
 }
 
 void Game::HandleInput(){
@@ -177,7 +211,9 @@ void Game::MoveDownAliens()
 
 void Game::AlienShootLasers()
 {
-    if (GetTime() - lastlasertime > laserinterval){
+    if (aliens.empty()){
+        BossTime = true;
+    } else if (GetTime() - lastlasertime > laserinterval){
         int randomIndex = GetRandomValue(0, aliens.size() - 1);
         Alien& alien = aliens[randomIndex];
         alienlasers.push_back(Laser({alien.position.x + alien.alienImages[alien.getType() - 1].width/2, 
@@ -306,3 +342,4 @@ void Game::CheckCollisions()
 void Game::GameOver(){
     run = false;
 }
+

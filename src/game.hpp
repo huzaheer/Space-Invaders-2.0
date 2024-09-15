@@ -3,8 +3,8 @@
 #include "obstacle.hpp"
 #include "alien.hpp"
 #include "mysteryship.hpp"
+#include "boss.hpp"
 #include <vector>
-
 
 class Game{
 public:
@@ -31,14 +31,20 @@ private:
     void Init();
     void CheckforHighScore();
     void SaveHighScoretoFile(int hs);
+    void MoveBoss();
+    void MoveDownBoss();
     int LoadHighScorefromFile();
     int aliendirection;
     int aliendescendspeed;
+    int bossdirection;
+    int bossdescendspeed;
     int lastspawntime;
     double laserinterval = 0.4;
     double lastlasertime;
+    bool BossTime;
     Spaceship spaceship;
     MysteryShip mysteryship;
+    Boss boss = Boss({(float) GetScreenWidth() - 350, (float) 200});
     std::vector<Obstacle> obstacles;
     std::vector<Alien> aliens;
     std::vector<Laser> alienlasers;
